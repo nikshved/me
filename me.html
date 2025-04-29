@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Моя аптека ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #f8d0e6, #f1b6d1);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    #completionMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 50px;
+    font-size: 32px;
+    color: #28a745;
+    border: 3px solid #28a745;
+    border-radius: 15px;
+    z-index: 9999;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  }
+
+
+    .snowflake {
+      color: red;
+      font-size: 24px;
+      position: absolute;
+      top: -10px;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    .center-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .couple {
+      width: 200px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #d6336c;
+    }
+
+    .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    }
+
+    .video-container {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    }
+
+    .video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    }
+
+    .close-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    }
+    #game {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      width: 80px;
+      height: 80px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card.open {
+      background-color: #fff0f5;
+    }
+
+    .card.matched {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const icons = ['🧠','🩺','❤️','💉', '🧬', '🧪', '🔬'];
+    for (let i = 0; i < 50; i++) {
+      let el = document.createElement('div');
+      el.className = 'snowflake';
+      el.innerText = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = 5 + Math.random() * 5 + 's';
+      el.style.fontSize = 20 + Math.random() * 20 + 'px';
+      document.body.appendChild(el);
+    }
+  </script>
+
+  <div class="center-content">
+    <img class="couple" src="./img/main-kiss.jpg" alt="Пара целуется">
+    <h1>Я сниму любой халатик с тебя 💘</h1>
+  </div>
+
+  <div id="videoModal" class="video-modal">
+      <div id="game"></div>
+      <div id="completionMessage" style="display:none;">
+        🎉Целую зайку - лучшая!🎉
+      </div>
+      
+  </div>
+  
+  <script>
+    const coupleImage = document.querySelector('.couple');
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('romanticVideo');
+  
+    coupleImage.addEventListener('click', () => {
+      modal.style.display = 'flex';
+      video.currentTime = 0;
+      video.play();
+    });
+  
+    function closeVideo() {
+      modal.style.display = 'none';
+      video.pause();
+    }
+  
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeVideo();
+      }
+    });
+  </script>
+  
+
+  <style>
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #e3f2fd;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+  
+    .tool {
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+  
+    .tool:hover {
+      transform: scale(1.2);
+    }
+  
+    .fact-popup {
+        position: fixed;
+        bottom: 80px;
+        background: #fff;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: slideUp 0.3s ease;
+        font-size: 16px;
+        max-width: 320px;
+        width: fit-content;
+        text-align: left;          
+        line-height: 1.5;        
+        word-wrap: break-word;    
+        white-space: normal;       
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        hyphens: auto; 
+        overflow-wrap: break-word; 
+        word-break: break-word;      
+        text-align: justify; 
+    }
+
+  
+    @keyframes slideUp {
+      from { opacity: 0; transform: translate(-50%, 20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+  
+  <div class="bottom-bar" lang="ru">
+    <div class="tool" onclick="toggleFact(this, '🩺 Стетоскоп придумал французский врач Рене Лаэннек в 1816 году. Однажды он гулял по парку и увидел, как играют двое детей. Один мальчик скреб булавкой конец бревна, а второй прикладывал ухо к противоположному краю, чтобы услышать усиленный звук. Стетоскоп изобрели, чтобы слушать сердце... А я слушаю только ритм твоих желаний ❤️')">🩺</div>
+    <div class="tool" onclick="toggleFact(this, '💉 Шприц придумал французский математик и физик Блез Паскаль, который в 1648 году, изучая особенности поведения жидкости под давлением, изобрел конструкцию из пресса и иглы. А мне не нужно накалывать твою попу - только целовать 💋 ')">💉</div>
+    <div class="tool" onclick="toggleFact(this, '🧬 Саму молекулу ДНК впервые обнаружил в 1869 году швейцарский биохимик Фридрих Мишер, работая с гноем из бинтов пациентов. Он назвал её нуклеин. ДНК делает нас уникальными. Но ты — моя единственная формула удовольствия 💘')">🧬</div>
+    <div class="tool" onclick="toggleFact(this, '🧠 Мозг — самый загадочный и мощный орган человека. Он не чувствует боли, но управляет ею во всём теле. Он весит всего 2% от массы тела, но потребляет до 25% всей энергии. Это не просто биологический процессор — это вселенная, скрытая внутри черепа. Внутри него — около 100 миллиардов нейронов. А связей между ними — больше, чем звёзд в галактике. Электрические импульсы движутся по ним со скоростью до 430 км/ч — быстрее, чем болид “Формулы-1”. И при этом — каждый миг, в нём вырабатывается электричества, достаточно чтобы зажечь лампочку. Пусть миллиарды нейронов ежедневно перезаписываются... но я останусь у тебя в голове навечно 💾')">🧠</div>
+  </div>
+  
+  <script>
+    let currentPopup = null;
+    let currentTool = null;
+  
+    function toggleFact(toolElement, text) {
+      if (currentTool === toolElement) {
+        closePopup();
+        return;
+      }
+  
+      closePopup();
+  
+      const popup = document.createElement('div');
+      popup.className = 'fact-popup';
+      popup.textContent = text;
+      document.body.appendChild(popup);
+  
+      currentPopup = popup;
+      currentTool = toolElement;
+    }
+  
+    function closePopup() {
+      if (currentPopup) {
+        currentPopup.remove();
+        currentPopup = null;
+        currentTool = null;
+      }
+    }
+  
+    document.addEventListener('click', (event) => {
+      const isTool = event.target.classList.contains('tool');
+      const isPopup = event.target.classList.contains('fact-popup');
+  
+      if (!isTool && !isPopup) {
+        closePopup();
+      }
+    });
+  </script>
+  
+  <script>
+    const emojis = ['💉', '💊', '🩺', '🧬', '🧠', '🏥', '🩹', '❤️'];
+    const items = shuffle([...emojis, ...emojis]);
+    const game = document.getElementById('game');
+    let firstCard = null;
+    let lock = false;
+  
+    let resetTimer;
+  
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+  
+    function createCard(emoji) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.emoji = emoji;
+      card.textContent = '';
+      card.addEventListener('click', () => {
+        if (lock || card.classList.contains('open') || card.classList.contains('matched')) return;
+  
+        card.textContent = emoji;
+        card.classList.add('open');
+  
+        if (!firstCard) {
+          firstCard = card;
+        } else {
+          lock = true;
+          if (card.dataset.emoji === firstCard.dataset.emoji) {
+            setTimeout(() => {
+              card.classList.add('matched');
+              firstCard.classList.add('matched');
+              card.textContent = '';
+              firstCard.textContent = '';
+              firstCard = null;
+              lock = false;
+  
+              checkGameCompletion();
+            }, 600);
+          } else {
+            setTimeout(() => {
+              card.textContent = '';
+              firstCard.textContent = '';
+              card.classList.remove('open');
+              firstCard.classList.remove('open');
+              firstCard = null;
+              lock = false;
+            }, 800);
+          }
+        }
+      });
+      return card;
+    }
+  
+    function checkGameCompletion() {
+      const matchedCards = document.querySelectorAll('.card.matched').length;
+      const totalCards = items.length;
+
+      if (matchedCards === totalCards) {
+        const messageBlock = document.getElementById('completionMessage');
+        messageBlock.style.display = 'block';
+
+        setTimeout(() => {
+          messageBlock.style.display = 'none';
+          resetGame();
+        }, 5000);
+      }
+    }
+
+    function resetGame() {
+
+      game.innerHTML = '';
+      shuffle([...emojis, ...emojis]).forEach(emoji => {
+        const card = createCard(emoji);
+        game.appendChild(card);
+      });
+  
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(resetGame, 5 * 60 * 1000);
+    }
+  
+    items.forEach(emoji => {
+      const card = createCard(emoji);
+      game.appendChild(card);
+    });
+  
+    resetTimer = setTimeout(resetGame, 5 * 60 * 1000); 
+  </script>
+  
+</body>
+</html>
